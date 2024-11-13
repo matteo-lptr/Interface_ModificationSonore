@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog as fd
+from tkinter.messagebox import showinfo
 
 # Créer la fenetre principale
 root = tk.Tk()
@@ -14,7 +16,24 @@ def update_value(slider_id):
 
 def affichageSliders():
     for i, slider in enumerate(sliders):
-        print(f"Valeur du slider {i + 1}: {slider.get()}")
+        print(f"Valeur du slider {i + 1}: {slider.get()}") # Affiche dans la console la valeur du slider
+
+def select_file():
+    filetypes = (
+        ('Audio ifles', '*.wav'),
+        ('All files', '*.*')
+    )
+
+    filename = fd.askopenfilename(
+        title='Open a file',
+        initialdir='/Documents',
+        filetypes=filetypes)
+
+    showinfo(
+        title='Selected File',
+        message=filename
+    )
+
 
 # Créer un cadre pour contenir les sliders
 frame = ttk.Frame(root)
@@ -33,10 +52,10 @@ for i in range(5):
     # Créer un slider vertical
     slider = ttk.Scale(
         frame,
-        from_=0,
-        to=100,
-        orient='vertical',
-        length=300,
+        from_=0, # Valeur mini du slider
+        to=100, # Valeur maxi du slider
+        orient='vertical', # Orientation du slider
+        length=300, # Taille du slider
         command=update_value(i)
     )
     slider.set(0)
@@ -47,7 +66,7 @@ for i in range(5):
 button = ttk.Button(root, text="Afficher les valeurs", command=affichageSliders)
 button.pack(pady=20)
 
-button = ttk.Button(root, text="Selectionner un son (.wav)", command=affichageSliders)
+button = ttk.Button(root, text="Selectionner un son (.wav)", command=select_file)
 button.pack(pady=20)
 
 # Lancement
